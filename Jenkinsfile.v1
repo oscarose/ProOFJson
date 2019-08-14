@@ -12,7 +12,7 @@ pipeline {
             steps {
                 git branch: 'master',
                     credentialsId: 'github_jenkins',
-                        url: 'https://github.com/oscarose/CFTenvironment.git'
+                        url: 'https://github.com/oscarose/ProOFJson.git'
             }
         }
         stage('deploy dev stack') {
