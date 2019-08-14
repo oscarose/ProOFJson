@@ -1,0 +1,108 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Alfresco-ses Stack",
+  "Metadata": {
+    "TemplateAuthor": "Abraham Ogba",
+    "AWS::CloudFormation::Interface": {
+      "ParameterGroups": [
+        {
+          "Label": {
+            "default": "Infrastructure deployment"
+          },
+          "Parameters": [
+            "Environment"
+          ]
+        },
+        {
+          "Label": {
+            "default": "alfresco-cft"
+          },
+          "Parameters": [
+            "Stackname",
+            "IamRole"
+          ]
+        }
+      ],
+      "ParametersLabels": {
+        "Environment": {
+          "default": "Environment:"
+        },
+        "StackName": {
+          "default": "alfresco"
+        },
+        "IamRole": {
+          "default": "ec2-access-ecs"
+        }
+      }
+    }
+  },
+  "Parameters": {
+    "Environment": {
+      "Type": "String",
+      "Default": "dev",
+      "AllowedValues": [
+        "qa",
+        "dev"
+      ]
+    },
+    "StackName": {
+      "Type": "String",
+      "Default": "alfresco"
+    },
+    "AmiId": {
+      "Type": "String",
+      "Default": "ami-099eea36c6bc666a9"
+    },
+    "IamRole": {
+      "Type": "String",
+      "Default": "ec2-access-ecs"
+    }
+  },
+  "Mappings": {
+    "environment": {
+      "qa": {
+        "VpcId": "vpc-3407ba4c",
+        "VPCSubnet1": "subnet-445ba919",
+        "VPCSubnet2": "subnet-46aa3b22"
+      },
+      "dev": {
+        "VpcId": "vpc-0344f3d7fbe904f2a",
+        "VPCSubnet1": "subnet-094b2028c130f5042",
+        "VPCSubnet2": "subnet-0fea883f5a4d5394e"
+      }
+    }
+  },
+  "Resources": {
+    "EC2Instance": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "ImageId": "ami-0756fbca465a59a30",
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "VolumeSize": "100",
+              "VolumeType": "gp2",
+              "DeleteOnTermination": true
+            }
+          }
+        ],
+        "KeyName": "docker",
+        "SecurityGroupIds": [
+          "sg-cd58fbbb",
+          "sg-0e208378",
+          "sg-c230528b"
+        ],
+        "InstanceType": "t2.micro",
+        "IamInstanceProfile": "ecs-role",
+        "SubnetId": { "Fn::FindInMap": ["environment", { "Ref": "Environment" }, "VPCSubnet1"] },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": { "Fn::Join": ["-", [{ "Ref": "Environment" }, "-pdftronserver-2"]] } 
+          }
+        ]
+      }
+    }
+  }
+}

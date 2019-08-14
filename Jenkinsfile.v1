@@ -1,0 +1,49 @@
+pipeline {
+    agent {
+        label'master'
+    }
+    parameters {
+        choice(name: 'target_environment', choices: ['dev', 'qa', 'stage'], description: 'cft target Environment',)
+        choice(name:'state', choices: ['present', 'absent'], description: 'cft build or teardown condition',)
+        string(name: 'stack_name', defaultValue: '', description: 'cft stackname',)
+    }
+    stages {
+        stage('checkout scm') {
+            steps {
+                git branch: 'master',
+                    credentialsId: 'github_jenkins',
+                        url: 'https://github.com/oscarose/CFTenvironment.git'
+            }
+        }
+        stage('deploy dev stack') {
+            when {
+                expression { params.target_environment == 'dev' }
+            }
+            steps {
+                sh """
+                ansible-playbook  --extra-vars "ansible_python_interpreter=/usr/bin/python stack_name=${stack_name} state=${state} Environment=${target_environment}" ${WORKSPACE}/test.yaml
+                """
+            }
+        }
+        stage('deploy qa stack') {
+            when {
+                expression { params.target_environment == 'qa' }
+            }
+            steps {
+                sh """
+                ansible-playbook  --extra-vars "ansible_python_interpreter=/usr/bin/python stack_name=${stack_name} state=${state} Environment=${target_environment}" ${WORKSPACE}/test.yaml
+                """
+            }
+        }
+        stage('deploy stage stack') {
+            when {
+                expression { params.target_environment == 'stage' }
+            }
+            steps {
+                sh """
+                ansible-playbook  --extra-vars "ansible_python_interpreter=/usr/bin/python stack_name=${stack_name} state=${state} Environment=${target_environment}" ${WORKSPACE}/CFT.json
+                """
+            }
+        }
+    }
+}
