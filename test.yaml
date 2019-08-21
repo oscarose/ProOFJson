@@ -14,7 +14,8 @@
       state: "{{ state }}"
       #region: "{{ aws_region }}"
       disable_rollback: true
-      template: "test.json"
+      #template: "test.json"
+      template: "https://ogbayaml.s3.amazonaws.com/test.json"
       template_parameters:
         Environment: "{{ Environment }}"
     when: state == "present"
@@ -27,7 +28,8 @@
       state: "{{ state }}"
       #region: "{{ aws_region }}"
       disable_rollback: true
-      template: "test.json"
+      #template: "test.json"
+      template: "https://ogbayaml.s3.amazonaws.com/test.json"
       template_parameters:
         Environment: "{{ Environment }}"
     when: state  == "absent"
