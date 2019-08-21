@@ -13,9 +13,14 @@
       stack_name: "{{ stack_name }}"
       state: "{{ state }}"
       #region: "{{ aws_region }}"
+<<<<<<< HEAD
       disable_rollback: true
       #template: "test.json"
       template: "https://ogbayaml.s3.amazonaws.com/test.json"
+=======
+      disable_rollback: false
+      template: "test.json"
+>>>>>>> b4f4886b6a0516e2888b8df77f4306cb94c49466
       template_parameters:
         Environment: "{{ Environment }}"
     when: state == "present"
@@ -27,9 +32,14 @@
       stack_name: "{{ stack_name }}"
       state: "{{ state }}"
       #region: "{{ aws_region }}"
+<<<<<<< HEAD
       disable_rollback: true
       #template: "test.json"
       template: "https://ogbayaml.s3.amazonaws.com/test.json"
+=======
+      disable_rollback: false
+      template: "test.json"
+>>>>>>> b4f4886b6a0516e2888b8df77f4306cb94c49466
       template_parameters:
         Environment: "{{ Environment }}"
     when: state  == "absent"
