@@ -31,9 +31,10 @@ pipeline {
             }
             steps {
                 sh """
-                aws s3 cp test.json s3://ogbayaml
+                aws s3 mb s3://ogbacftdeployment
+                aws s3 cp test.json s3://ogbacftdeployment
                 ansible-playbook  --extra-vars "ansible_python_interpreter=/usr/bin/python stack_name=${stack_name} state=${state} Environment=${target_environment}" ${WORKSPACE}/test.yaml
-                aws s3 rm s3://ogbayaml/test.json
+                aws s3 rm s3://ogbacftdeployment 
                 """
             }
         }

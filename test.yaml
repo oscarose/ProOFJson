@@ -15,7 +15,7 @@
       #region: "{{ aws_region }}"
       disable_rollback: true
       #template: "test.json"
-      template: "https://ogbayaml.s3.amazonaws.com/test.json"
+      template: "https://ogbacftdeployment.s3.amazonaws.com/test.json"
       disable_rollback: false
       template: "test.json"
       template_parameters:
@@ -31,7 +31,7 @@
       #region: "{{ aws_region }}"
       disable_rollback: true
       #template: "test.json"
-      template: "https://ogbayaml.s3.amazonaws.com/test.json"
+      template: "https://ogbacftdeployment.s3.amazonaws.com/test.json"
       disable_rollback: false
       template: "test.json"
       template_parameters:
